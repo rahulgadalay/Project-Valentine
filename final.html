@@ -42,6 +42,7 @@ button{
 .yes{background:#c9184a;color:white}
 .no{background:#555;color:white;position:absolute}
 
+/* Envelopes */
 .envelopes{margin-top:40px}
 .envelope{
   width:180px;height:120px;
@@ -57,7 +58,7 @@ button{
   box-shadow:0 0 25px rgba(255,182,193,.9);
   transform:translateY(-8px);
 }
-.envelope.opened{pointer-events:none;opacity:.85}
+.envelope.opened{pointer-events:none;opacity:.8}
 
 .flap{
   position:absolute;width:100%;height:100%;
@@ -77,23 +78,44 @@ button{
 .envelope.open .flap{transform:rotateX(180deg)}
 .envelope.open .paper{transform:translateY(-60px) scaleY(1);opacity:1}
 
+/* Overlay */
 .overlay{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.5);
+  background:rgba(0,0,0,.55);
   display:none;
   align-items:center;
   justify-content:center;
   z-index:10;
 }
 
+/* Vision board */
 .vision{
-  background:linear-gradient(180deg,#ffb347,#ff5e62);
-  padding:30px;
-  border-radius:20px;
-  width:360px;
+  background:#fff3f5;
+  color:#c9184a;
+  padding:28px;
+  border-radius:22px;
+  width:380px;
+}
+.vision h3{
+  font-family:'Great Vibes',cursive;
+  font-size:34px;
+  margin-bottom:16px;
+}
+.vision-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+.vision-box{
+  background:white;
+  border-radius:14px;
+  padding:18px;
+  font-family:'Playfair Display',serif;
+  box-shadow:0 0 12px rgba(0,0,0,.15);
 }
 
+/* Letter */
 .letter{
   font-family:'Playfair Display',serif;
   font-size:20px;
@@ -102,6 +124,7 @@ button{
   white-space:pre-line;
 }
 
+/* Coupon */
 .coupon{
   font-family:'Pacifico',cursive;
   background:linear-gradient(135deg,#fff0f5,#ffe6ea);
@@ -111,6 +134,7 @@ button{
   width:340px;
 }
 
+/* Final */
 .final{
   font-family:'Great Vibes',cursive;
   font-size:68px;
@@ -121,27 +145,28 @@ button{
 
 <body>
 
-<!-- PAGE 1 -->
+<!-- SLIDE 1 -->
 <div class="page active" id="p1">
   <h1 class="title">I have something to ask 💌</h1>
   <button class="yes" onclick="go(2)">Yes</button>
   <button class="no" id="no1">No</button>
 </div>
 
-<!-- PAGE 2 -->
+<!-- SLIDE 2 -->
 <div class="page" id="p2">
   <h1 class="title">Will you be my Valentine Forever 💖</h1>
   <button class="yes" onclick="go(3)">Yes</button>
   <button class="no" id="no2">No</button>
 </div>
 
-<!-- PAGE 3 -->
+<!-- SLIDE 3 (FIXED) -->
 <div class="page" id="p3">
-  <h1 class="title">Yaaayyy 🌅</h1>
-  <h2 class="sub">I have a few gifts for you 💝</h2>
+  <h1 class="title">Yaaayyy 🎉</h1>
+  <h2 class="sub">I have a few gifts for you!!!</h2>
+  <p>(tap anywhere)</p>
 </div>
 
-<!-- PAGE 4 -->
+<!-- SLIDE 4 -->
 <div class="page" id="p4">
   <div class="envelopes">
     <div class="envelope" onclick="openVision(this)"><div class="flap"></div><div class="paper"></div></div>
@@ -152,20 +177,20 @@ button{
 
 <div class="overlay" id="overlay"></div>
 
-<!-- PAGE 5 -->
+<!-- SLIDE 5 -->
 <div class="page" id="p5">
   <div class="final">Some gifts are meant to stay forever 💖</div>
 </div>
 
-<!-- PAGE 6 -->
+<!-- SLIDE 6 (FINAL) -->
 <div class="page" id="p6">
   <div class="final">I Love You Challa ante Challa Nikkiiii&lt;3</div>
 </div>
 
 <script>
-let currentPage = 1;
-let opened = new Set();
+let openedCount = 0;
 let couponIndex = 0;
+let currentPage = 1;
 
 const coupons = [
   "UR Partner – Lifetime ♾️",
@@ -189,7 +214,7 @@ function go(n){
   currentPage = n;
 }
 
-document.body.onclick = () => {
+document.body.onclick = ()=>{
   if(currentPage === 3) go(4);
   else if(currentPage === 5) go(6);
 };
@@ -197,7 +222,7 @@ document.body.onclick = () => {
 function mark(el){
   if(!el.classList.contains("opened")){
     el.classList.add("open","opened");
-    opened.add(el);
+    openedCount++;
   }
 }
 
@@ -205,18 +230,23 @@ function openVision(el){
   mark(el);
   overlay.style.display="flex";
   overlay.innerHTML=`
-    <div class="vision">
-      <h3>Future With You 💖</h3>
-      <p>Trips 🌍 • Travel ✈️ • Moments ✨ • Us 💞</p>
-      <p>To be completed with you</p>
-    </div>`;
+  <div class="vision">
+    <h3>Future With You 💖</h3>
+    <div class="vision-grid">
+      <div class="vision-box">Trips 🌍</div>
+      <div class="vision-box">Travel ✈️</div>
+      <div class="vision-box">Moments ✨</div>
+      <div class="vision-box">Us 💞</div>
+    </div>
+    <p>To be completed with you</p>
+  </div>`;
 }
 
 function openLetter(el){
   mark(el);
   overlay.style.display="flex";
   overlay.innerHTML=`<div class="letter" id="letter"></div>`;
-  let i=0, l=document.getElementById("letter");
+  let i=0,l=document.getElementById("letter");
   let t=setInterval(()=>{
     l.textContent+=letterText[i++]||"";
     if(i>=letterText.length) clearInterval(t);
@@ -232,10 +262,10 @@ function openCoupons(el){
 function showCoupon(){
   overlay.style.display="flex";
   overlay.innerHTML=`
-    <div class="coupon">
-      ${coupons[couponIndex]}<br><br>
-      <button onclick="nextCoupon()">Next ➡️</button>
-    </div>`;
+  <div class="coupon">
+    ${coupons[couponIndex]}<br><br>
+    <button onclick="nextCoupon()">Next ➡️</button>
+  </div>`;
 }
 
 function nextCoupon(){
@@ -244,7 +274,7 @@ function nextCoupon(){
     showCoupon();
   } else {
     overlay.style.display="none";
-    if(opened.size === 3) go(5);
+    if(openedCount === 3) go(5);
   }
 }
 
@@ -256,3 +286,4 @@ no2.onmouseover=()=>{no2.style.left=Math.random()*80+"vw";no2.style.top=Math.ran
 
 </body>
 </html>
+
