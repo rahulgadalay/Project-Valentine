@@ -8,48 +8,61 @@
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display&family=Pacifico&display=swap');
 
 body{
-  margin:0;
-  height:100vh;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  color:white;
-  background:linear-gradient(180deg,#ff9a9e,#fad0c4,#ffdde1);
-  background-size:300% 300%;
-  animation:bgMove 18s ease infinite;
+ margin:0;
+ height:100vh;
+ overflow:hidden;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ color:white;
+ background:linear-gradient(180deg,#ff9a9e,#fad0c4,#ffdde1);
+ background-size:300% 300%;
+ animation:bgMove 18s ease infinite;
+ transition:background 2s ease;
+}
+body.night{
+ background:radial-gradient(circle at bottom,#020111,#000000);
 }
 @keyframes bgMove{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
 }
 
-/* floating hearts */
-#hearts{position:fixed;inset:0;pointer-events:none}
-.heart{
- position:absolute;
- bottom:-40px;
- font-size:22px;
- animation:floatUp 6s linear infinite;
-}
-@keyframes floatUp{
- 0%{transform:translateY(0);opacity:0}
- 30%{opacity:1}
- 100%{transform:translateY(-110vh);opacity:0}
-}
-
-.page{
- display:none;
- width:100%;
+/* stars */
+#stars{
+ position:fixed;
+ inset:0;
+ pointer-events:none;
  opacity:0;
- transition:.6s;
+ transition:2s;
 }
-.page.active{
- display:block;
- opacity:1;
+body.night #stars{opacity:1;}
+.star{
+ position:absolute;
+ width:2px;
+ height:2px;
+ background:white;
+ border-radius:50%;
+ animation:twinkle 2s infinite alternate;
 }
+@keyframes twinkle{
+ from{opacity:.3}
+ to{opacity:1}
+}
+
+/* hearts */
+#hearts{position:fixed;inset:0;pointer-events:none}
+.heart{position:absolute;bottom:-40px;font-size:22px;animation:floatUp 6s linear infinite}
+@keyframes floatUp{
+0%{transform:translateY(0);opacity:0}
+30%{opacity:1}
+100%{transform:translateY(-110vh);opacity:0}
+}
+
+.page{display:none;width:100%;opacity:0;transition:.6s}
+.page.active{display:block;opacity:1}
 
 .title{font-family:'Great Vibes',cursive;font-size:60px}
 .sub{font-family:'Great Vibes',cursive;font-size:36px}
@@ -64,7 +77,6 @@ button{
 .yes{background:#c9184a;color:white}
 .no{background:#555;color:white;position:absolute;z-index:5}
 
-/* envelopes */
 .envelopes{margin-top:40px}
 .envelope{
  width:180px;height:120px;
@@ -98,7 +110,6 @@ button{
 .envelope.open .flap{transform:rotateX(180deg)}
 .envelope.open .paper{transform:translateY(-60px) scaleY(1);opacity:1}
 
-/* overlay */
 .overlay{
  position:fixed;
  inset:0;
@@ -109,7 +120,6 @@ button{
  z-index:10;
 }
 
-/* vision board */
 .vision{
  background:#fff3f5;
  color:#c9184a;
@@ -117,12 +127,7 @@ button{
  border-radius:22px;
  width:380px;
 }
-.vision h3{
- font-family:'Great Vibes',cursive;
- font-size:34px;
-}
 
-/* letter */
 .letter{
  font-family:'Playfair Display',serif;
  font-size:20px;
@@ -131,7 +136,6 @@ button{
  white-space:pre-line;
 }
 
-/* coupon */
 .coupon{
  font-family:'Pacifico',cursive;
  background:linear-gradient(135deg,#fff0f5,#ffe6ea);
@@ -141,16 +145,17 @@ button{
  width:340px;
 }
 
-/* final glow */
 .final{
  font-family:'Great Vibes',cursive;
- font-size:68px;
- animation:glowPulse 3s ease-in-out infinite;
+ font-size:70px;
+ animation:heartbeat 1.4s infinite;
 }
-@keyframes glowPulse{
- 0%{text-shadow:0 0 10px rgba(255,105,180,.3)}
- 50%{text-shadow:0 0 45px rgba(255,105,180,.9)}
- 100%{text-shadow:0 0 10px rgba(255,105,180,.3)}
+@keyframes heartbeat{
+0%{transform:scale(1)}
+25%{transform:scale(1.08)}
+40%{transform:scale(1)}
+60%{transform:scale(1.12)}
+100%{transform:scale(1)}
 }
 </style>
 </head>
@@ -158,150 +163,168 @@ button{
 <body>
 
 <div id="hearts"></div>
+<div id="stars"></div>
 
-<!-- SLIDE 1 -->
 <div class="page active" id="p1">
-  <h1 class="title">I have something to ask 💌</h1>
-  <button class="yes" onclick="go(2)">Yes</button>
-  <button class="no" id="no1">No</button>
+<h1 class="title">I have something to ask 💌</h1>
+<button class="yes" onclick="go(2)">Yes</button>
+<button class="no" id="no1">No</button>
 </div>
 
-<!-- SLIDE 2 -->
 <div class="page" id="p2">
-  <h1 class="title">Will you be my Valentine Forever 💖</h1>
-  <button class="yes" onclick="go(3)">Yes</button>
-  <button class="no" id="no2">No</button>
+<h1 class="title">Will you be my Valentine Forever 💖</h1>
+<button class="yes" onclick="go(3)">Yes</button>
+<button class="no" id="no2">No</button>
 </div>
 
-<!-- SLIDE 3 -->
 <div class="page" id="p3">
-  <h1 class="title">Yaaayyy 🎉</h1>
-  <h2 class="sub">(tap anywhere)</h2>
+<h1 class="title">Yaaayyy 🎉</h1>
+<h2 class="sub">(tap anywhere)</h2>
 </div>
 
-<!-- NEW ROMANTIC SLIDE -->
 <div class="page" id="p4">
-  <h1 class="title">I have something for you 💝</h1>
-  <button class="yes" onclick="go(5)">Open</button>
+<h1 class="title">I have something for you 💝</h1>
+<button class="yes" onclick="go(5)">Open</button>
 </div>
 
-<!-- ENVELOPES -->
 <div class="page" id="p5">
-  <div class="envelopes">
-    <div class="envelope" onclick="openVision(this)"><div class="flap"></div><div class="paper"></div></div>
-    <div class="envelope" onclick="openLetter(this)"><div class="flap"></div><div class="paper"></div></div>
-    <div class="envelope" onclick="openCoupons(this)"><div class="flap"></div><div class="paper"></div></div>
-  </div>
+<div class="envelopes">
+<div class="envelope" onclick="openVision(this)"><div class="flap"></div><div class="paper"></div></div>
+<div class="envelope" onclick="openLetter(this)"><div class="flap"></div><div class="paper"></div></div>
+<div class="envelope" onclick="openCoupons(this)"><div class="flap"></div><div class="paper"></div></div>
+</div>
 </div>
 
 <div class="overlay" id="overlay"></div>
 
-<!-- FINAL -->
 <div class="page" id="p6">
-  <div class="final">Some gifts are meant to stay forever 💖</div>
+<div class="final">Some gifts are meant to stay forever 💖</div>
 </div>
 
 <div class="page" id="p7">
-  <div class="final">I Love You Challa ante Challa Nikkiiii&lt;3</div>
+<div class="final" id="finalText"></div>
 </div>
 
 <script>
-const overlay = document.getElementById("overlay");
+const overlay=document.getElementById("overlay");
+const stars=document.getElementById("stars");
+
 let openedCount=0,couponIndex=0,currentPage=1;
 
 const coupons=[
- "UR Partner – Lifetime ♾️",
- "Cuddle Partner – Infinite 🤍",
- "Virtual & Real Dates – Forever 💕"
+"UR Partner – Lifetime ♾️",
+"Cuddle Partner – Infinite 🤍",
+"Virtual & Real Dates – Forever 💕",
+"One Long Drive Together 🚗✨",
+"Unlimited Forehead Kisses Pass 💋"
 ];
 
-const letterText=`These 526 days with u have been like the best ones which I can possibly ever wish for and
-I wish that uk this number to just go on and on...
+const letterText=`These 526 days with u have been like the best ones which I can possibly ever wish for and I wish that uk this number to just go on and on...
 
-Uk no matter the consequences, no matter the issue, I would want to face it knowing that
-u are there beside me and supporting me...
+Uk no matter the consequences, no matter the issue, I would want to face it knowing that u are there beside me and supporting me...
+
+U are the best miracle which I can ever wish for and would want to keep this miracle with me forever and spend more moments with you and want only you and just you to be my partner for ever ra
 
 I LOVE YOU NIKKIIII <3..!!!!!`;
 
 function go(n){
- document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
- document.getElementById("p"+n).classList.add('active');
- currentPage=n;
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById("p"+n).classList.add('active');
+currentPage=n;
+
+if(n===7){
+document.body.classList.add("night");
+createStars();
+
+let txt="I Love You Challa ante Challa Nikkiiii <3";
+let i=0;
+let el=document.getElementById("finalText");
+el.textContent="";
+let t=setInterval(()=>{
+el.textContent+=txt[i++]||"";
+if(i>=txt.length)clearInterval(t);
+},90);
+}
 }
 
-/* slide3 tap */
-document.getElementById("p3").onclick=()=>{
- if(currentPage===3) go(4);
-};
+document.getElementById("p3").onclick=()=>{if(currentPage===3)go(4);};
+document.getElementById("p6").onclick=()=>{if(currentPage===6)go(7);};
 
-/* hearts */
+function createStars(){
+stars.innerHTML="";
+for(let i=0;i<120;i++){
+let s=document.createElement("div");
+s.className="star";
+s.style.left=Math.random()*100+"vw";
+s.style.top=Math.random()*100+"vh";
+stars.appendChild(s);
+}
+}
+
 setInterval(()=>{
- const h=document.createElement("div");
- h.className="heart";
- h.innerHTML="💖";
- h.style.left=Math.random()*100+"vw";
- hearts.appendChild(h);
- setTimeout(()=>h.remove(),6000);
+const h=document.createElement("div");
+h.className="heart";
+h.innerHTML="💖";
+h.style.left=Math.random()*100+"vw";
+hearts.appendChild(h);
+setTimeout(()=>h.remove(),6000);
 },600);
 
 function mark(el){
- if(!el.classList.contains("open")){
-   el.classList.add("open");
-   openedCount++;
- }
+if(!el.classList.contains("open")){
+el.classList.add("open");
+openedCount++;
+}
 }
 
-/* overlay close FIX */
-overlay.onclick=()=>{
- overlay.style.display="none";
-};
+overlay.onclick=()=>{overlay.style.display="none";};
 
-/* vision */
 function openVision(el){
- mark(el);
- overlay.style.display="flex";
- overlay.innerHTML=`<div class="vision">
- <h3>Future With You 💖</h3>
- Trips 🌍 Travel ✈️ Moments ✨ Us 💞
- </div>`;
+mark(el);
+overlay.style.display="flex";
+overlay.innerHTML=`<div class="vision">
+<h3>Future With You 💖</h3>
+Trips 🌍 Travel ✈️ Moments ✨ Us 💞
+</div>`;
 }
 
-/* letter */
 function openLetter(el){
- mark(el);
- overlay.style.display="flex";
- overlay.innerHTML=`<div class="letter" id="letter"></div>`;
- let i=0,l=document.getElementById("letter");
- let t=setInterval(()=>{
-   l.textContent+=letterText[i++]||"";
-   if(i>=letterText.length) clearInterval(t);
- },30);
+mark(el);
+overlay.style.display="flex";
+overlay.innerHTML=`<div class="letter" id="letter"></div>`;
+let i=0,l=document.getElementById("letter");
+let t=setInterval(()=>{
+l.textContent+=letterText[i++]||"";
+if(i>=letterText.length)clearInterval(t);
+},30);
 }
 
-/* coupons */
 function openCoupons(el){
- mark(el);
- couponIndex=0;
- showCoupon();
-}
-function showCoupon(){
- overlay.style.display="flex";
- overlay.innerHTML=`<div class="coupon">
- ${coupons[couponIndex]}<br><br>
- <button onclick="nextCoupon()">Next ➡️</button>
- </div>`;
-}
-function nextCoupon(){
- couponIndex++;
- if(couponIndex<coupons.length){
-   showCoupon();
- }else{
-   overlay.style.display="none";
-   if(openedCount===3) go(6);
- }
+mark(el);
+couponIndex=0;
+showCoupon();
 }
 
-/* no buttons run away */
+function showCoupon(){
+let extraStyle=couponIndex>=3?"box-shadow:0 0 30px pink;transform:scale(1.05);":"";
+overlay.style.display="flex";
+overlay.innerHTML=`
+<div class="coupon" style="${extraStyle}">
+${coupons[couponIndex]}<br><br>
+<button onclick="nextCoupon()">Next ➡️</button>
+</div>`;
+}
+
+function nextCoupon(){
+couponIndex++;
+if(couponIndex<coupons.length){
+showCoupon();
+}else{
+overlay.style.display="none";
+if(openedCount===3)go(6);
+}
+}
+
 no1.onmouseover=()=>{no1.style.left=Math.random()*80+"vw";no1.style.top=Math.random()*80+"vh";}
 no2.onmouseover=()=>{no2.style.left=Math.random()*80+"vw";no2.style.top=Math.random()*80+"vh";}
 </script>
