@@ -29,7 +29,7 @@ body.night{background:radial-gradient(circle at bottom,#020111,#000);}
 100%{background-position:0% 50%}
 }
 
-/* background effects */
+/* effects */
 #hearts,#stars{
  position:fixed;
  inset:0;
@@ -140,12 +140,12 @@ button{
  white-space:pre-line;
 }
 .coupon{
- font-family:'Pacifico',cursive;
+ font-family:'Playfair Display',serif;
  background:linear-gradient(135deg,#fff0f5,#ffe6ea);
  color:#c9184a;
  padding:30px;
  border-radius:20px;
- width:340px;
+ width:360px;
 }
 
 .closeBtn{
@@ -204,14 +204,14 @@ button{
 <div class="envelopes">
 <div class="envelope" onclick="openVision()">💌</div>
 <div class="envelope" onclick="openLetter()">💌</div>
-<div class="envelope" onclick="openCoupons()">🎁</div>
+<div class="envelope" onclick="openCoupons()">🌙</div>
 </div>
 </div>
 
 <div class="overlay" id="overlay"></div>
 
 <div class="page" id="p6">
-<div class="final">Some gifts are meant to stay forever 💖</div>
+<div class="final">Some promises are meant to last forever 💖</div>
 </div>
 
 <div class="page" id="p7">
@@ -224,15 +224,16 @@ const hearts=document.getElementById("hearts");
 const stars=document.getElementById("stars");
 
 let openedMain=0;
-let openedCoupons=new Set();   /* ⭐ FIXED HERE */
+let openedCoupons=new Set();
 let currentPage=1;
 
+/* 🌙 PROMISES VERSION */
 const coupons=[
-"UR Partner – Lifetime ♾️",
-"Cuddle Partner – Infinite 🤍",
-"Virtual & Real Dates – Forever 💕",
-"Long Drive Together 🚗✨",
-"Unlimited Kisses Pass 💋"
+"🌙 I promise to choose you again and again, even on the days when words fail me.",
+"💫 I promise to be your calm when life feels loud and your strength when you feel weak.",
+"❤️ I promise to create more memories, more laughter, and more late-night talks with you.",
+"🚗 I promise more long drives, deeper conversations, and moments that feel like home.",
+"💋 I promise that no matter where life takes us… my heart will always find its way back to you."
 ];
 
 const letterText=`These 526 days with u have been like the best ones which I can possibly ever wish for and I wish that uk this number to just go on and on...
@@ -330,13 +331,13 @@ overlay.innerHTML=`
 
 function showCoupon(i,e){
 e.stopPropagation();
-openedCoupons.add(i);   /* ⭐ FIXED HERE */
+openedCoupons.add(i);
 checkFinal();
 
 overlay.innerHTML=`
 <div class="coupon">
 ${coupons[i]}<br><br>
-<div class="closeBtn" onclick="openCoupons()">⬅ Back to Coupons</div>
+<div class="closeBtn" onclick="openCoupons()">⬅ Back to Promises</div>
 </div>`;
 }
 
