@@ -94,7 +94,6 @@ button{
  transform:translateY(-8px);
 }
 
-/* mini coupons */
 .innerCoupons{
  display:flex;
  gap:15px;
@@ -225,7 +224,7 @@ const hearts=document.getElementById("hearts");
 const stars=document.getElementById("stars");
 
 let openedMain=0;
-let openedCoupons=0;
+let openedCoupons=new Set();   /* ⭐ FIXED HERE */
 let currentPage=1;
 
 const coupons=[
@@ -245,8 +244,8 @@ U are the best miracle which I can ever wish for and would want to keep this mir
 I LOVE YOU NIKKIIII <3..!!!!!`;
 
 function checkFinal(){
- if(openedMain===3 && openedCoupons===5){
-   setTimeout(()=>go(6),1000);
+ if(openedMain===3 && openedCoupons.size===5){
+   setTimeout(()=>go(6),800);
  }
 }
 
@@ -331,7 +330,7 @@ overlay.innerHTML=`
 
 function showCoupon(i,e){
 e.stopPropagation();
-openedCoupons++;
+openedCoupons.add(i);   /* ⭐ FIXED HERE */
 checkFinal();
 
 overlay.innerHTML=`
@@ -347,5 +346,4 @@ no2.onmouseover=()=>{no2.style.left=Math.random()*80+"vw";no2.style.top=Math.ran
 
 </body>
 </html>
-
 
