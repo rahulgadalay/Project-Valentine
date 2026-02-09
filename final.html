@@ -21,16 +21,14 @@ body{
  animation:bgMove 18s ease infinite;
  transition:background 2s ease;
 }
-body.night{
- background:radial-gradient(circle at bottom,#020111,#000);
-}
+body.night{background:radial-gradient(circle at bottom,#020111,#000);}
 @keyframes bgMove{
 0%{background-position:0% 50%}
 50%{background-position:100% 50%}
 100%{background-position:0% 50%}
 }
 
-/* background effects */
+/* effects */
 #hearts,#stars{
  position:fixed;
  inset:0;
@@ -79,6 +77,7 @@ button{
 .yes{background:#c9184a;color:white}
 .no{background:#555;color:white;position:absolute;z-index:5}
 
+/* envelopes */
 .envelopes{margin-top:40px}
 .envelope{
  width:180px;height:120px;
@@ -96,10 +95,12 @@ button{
  transform:translateY(-8px);
 }
 
-/* INTERNAL COUPON ENVELOPES ⭐ */
+/* mini coupon envelopes */
 .innerCoupons{
  display:flex;
  gap:15px;
+ flex-wrap:wrap;
+ justify-content:center;
 }
 .miniEnv{
  width:90px;height:60px;
@@ -109,8 +110,14 @@ button{
  display:flex;
  align-items:center;
  justify-content:center;
+ transition:.3s;
+}
+.miniEnv:hover{
+ transform:scale(1.1);
+ box-shadow:0 0 12px pink;
 }
 
+/* overlay */
 .overlay{
  position:fixed;
  inset:0;
@@ -142,6 +149,16 @@ button{
  padding:30px;
  border-radius:20px;
  width:340px;
+}
+
+.closeBtn{
+ margin-top:15px;
+ background:#c9184a;
+ color:white;
+ padding:8px 18px;
+ border-radius:15px;
+ cursor:pointer;
+ display:inline-block;
 }
 
 .final{
@@ -209,8 +226,9 @@ const overlay=document.getElementById("overlay");
 const hearts=document.getElementById("hearts");
 const stars=document.getElementById("stars");
 
-let openedCount=0,couponIndex=0,currentPage=1;
+let openedCount=0,currentPage=1;
 
+/* ⭐ COUPON CONTENT ADDED */
 const coupons=[
 "UR Partner – Lifetime ♾️",
 "Cuddle Partner – Infinite 🤍",
@@ -291,27 +309,27 @@ if(i>=letterText.length)clearInterval(t);
 },30);
 }
 
-/* ⭐ ONLY THIRD ENVELOPE HAS INTERNAL ENVELOPES */
+/* ⭐ INTERNAL COUPONS NOW OPEN WITH CONTENT */
 function openCoupons(){
 openedCount++;
 overlay.style.display="flex";
 overlay.innerHTML=`
 <div class="innerCoupons">
- <div class="miniEnv" onclick="showCoupon(0)">💌</div>
- <div class="miniEnv" onclick="showCoupon(1)">💌</div>
- <div class="miniEnv" onclick="showCoupon(2)">💌</div>
- <div class="miniEnv" onclick="showCoupon(3)">💌</div>
- <div class="miniEnv" onclick="showCoupon(4)">💌</div>
+ <div class="miniEnv" onclick="showCoupon(0,event)">💌</div>
+ <div class="miniEnv" onclick="showCoupon(1,event)">💌</div>
+ <div class="miniEnv" onclick="showCoupon(2,event)">💌</div>
+ <div class="miniEnv" onclick="showCoupon(3,event)">💌</div>
+ <div class="miniEnv" onclick="showCoupon(4,event)">💌</div>
 </div>`;
 }
 
-function showCoupon(i){
-couponIndex=i;
+function showCoupon(i,e){
+e.stopPropagation();
 overlay.innerHTML=`
 <div class="coupon">
-${coupons[couponIndex]}
+${coupons[i]}<br><br>
+<div class="closeBtn" onclick="overlay.style.display='none';if(openedCount>=3)setTimeout(()=>go(6),800);">Close 💖</div>
 </div>`;
-if(openedCount>=3)setTimeout(()=>go(6),2500);
 }
 
 no1.onmouseover=()=>{no1.style.left=Math.random()*80+"vw";no1.style.top=Math.random()*80+"vh";}
