@@ -22,6 +22,7 @@ body{
  transition:background 2s ease;
 }
 body.night{background:radial-gradient(circle at bottom,#020111,#000);}
+
 @keyframes bgMove{
 0%{background-position:0% 50%}
 50%{background-position:100% 50%}
@@ -46,7 +47,6 @@ body.night{background:radial-gradient(circle at bottom,#020111,#000);}
 30%{opacity:1}
 100%{transform:translateY(-110vh);opacity:0}
 }
-
 .star{
  position:absolute;
  width:2px;height:2px;background:white;border-radius:50%;
@@ -77,7 +77,6 @@ button{
 .yes{background:#c9184a;color:white}
 .no{background:#555;color:white;position:absolute;z-index:5}
 
-/* envelopes */
 .envelopes{margin-top:40px}
 .envelope{
  width:180px;height:120px;
@@ -95,7 +94,7 @@ button{
  transform:translateY(-8px);
 }
 
-/* mini coupon envelopes */
+/* mini coupons */
 .innerCoupons{
  display:flex;
  gap:15px;
@@ -117,7 +116,6 @@ button{
  box-shadow:0 0 12px pink;
 }
 
-/* overlay */
 .overlay{
  position:fixed;
  inset:0;
@@ -226,9 +224,10 @@ const overlay=document.getElementById("overlay");
 const hearts=document.getElementById("hearts");
 const stars=document.getElementById("stars");
 
-let openedCount=0,currentPage=1;
+let openedMain=0;
+let openedCoupons=0;
+let currentPage=1;
 
-/* ⭐ COUPON CONTENT ADDED */
 const coupons=[
 "UR Partner – Lifetime ♾️",
 "Cuddle Partner – Infinite 🤍",
@@ -244,6 +243,12 @@ Uk no matter the consequences, no matter the issue, I would want to face it know
 U are the best miracle which I can ever wish for and would want to keep this miracle with me forever and spend more moments with you and want only you and just you to be my partner for ever ra
 
 I LOVE YOU NIKKIIII <3..!!!!!`;
+
+function checkFinal(){
+ if(openedMain===3 && openedCoupons===5){
+   setTimeout(()=>go(6),1000);
+ }
+}
 
 function go(n){
 document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -290,7 +295,8 @@ stars.appendChild(s);
 overlay.onclick=()=>{overlay.style.display="none";};
 
 function openVision(){
-openedCount++;
+openedMain++;
+checkFinal();
 overlay.style.display="flex";
 overlay.innerHTML=`<div class="vision">
 <h3>Future With You 💖</h3>
@@ -299,7 +305,8 @@ Trips 🌍 Travel ✈️ Moments ✨ Us 💞
 }
 
 function openLetter(){
-openedCount++;
+openedMain++;
+checkFinal();
 overlay.style.display="flex";
 overlay.innerHTML=`<div class="letter" id="letter"></div>`;
 let i=0,l=document.getElementById("letter");
@@ -309,9 +316,8 @@ if(i>=letterText.length)clearInterval(t);
 },30);
 }
 
-/* ⭐ INTERNAL COUPONS NOW OPEN WITH CONTENT */
 function openCoupons(){
-openedCount++;
+openedMain++;
 overlay.style.display="flex";
 overlay.innerHTML=`
 <div class="innerCoupons">
@@ -325,10 +331,13 @@ overlay.innerHTML=`
 
 function showCoupon(i,e){
 e.stopPropagation();
+openedCoupons++;
+checkFinal();
+
 overlay.innerHTML=`
 <div class="coupon">
 ${coupons[i]}<br><br>
-<div class="closeBtn" onclick="overlay.style.display='none';if(openedCount>=3)setTimeout(()=>go(6),800);">Close 💖</div>
+<div class="closeBtn" onclick="overlay.style.display='none'">Close 💖</div>
 </div>`;
 }
 
