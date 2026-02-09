@@ -29,7 +29,6 @@ body.night{background:radial-gradient(circle at bottom,#020111,#000);}
 100%{background-position:0% 50%}
 }
 
-/* effects */
 #hearts,#stars{
  position:fixed;
  inset:0;
@@ -226,8 +225,8 @@ const stars=document.getElementById("stars");
 let openedMain=0;
 let openedCoupons=new Set();
 let currentPage=1;
+let promisesOpened=false;   // ⭐ IMPORTANT FIX
 
-/* 🌙 PROMISES VERSION */
 const coupons=[
 "🌙 I promise to choose you again and again, even on the days when words fail me.",
 "💫 I promise to be your calm when life feels loud and your strength when you feel weak.",
@@ -316,8 +315,12 @@ if(i>=letterText.length)clearInterval(t);
 },30);
 }
 
+/* ⭐ FIXED PROMISES LOGIC */
 function openCoupons(){
-openedMain++;
+if(!promisesOpened){
+ openedMain++;
+ promisesOpened=true;
+}
 overlay.style.display="flex";
 overlay.innerHTML=`
 <div class="innerCoupons">
