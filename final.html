@@ -29,7 +29,7 @@ body.night{background:radial-gradient(circle at bottom,#020111,#000);}
 100%{background-position:0% 50%}
 }
 
-/* effects */
+/* background effects */
 #hearts,#stars{
  position:fixed;
  inset:0;
@@ -151,10 +151,10 @@ button{
 
 .closeBtn{
  margin-top:15px;
- background:#c9184a;
+ background:linear-gradient(135deg,#ff758f,#c9184a);
  color:white;
  padding:8px 18px;
- border-radius:15px;
+ border-radius:20px;
  cursor:pointer;
  display:inline-block;
 }
@@ -337,7 +337,7 @@ checkFinal();
 overlay.innerHTML=`
 <div class="coupon">
 ${coupons[i]}<br><br>
-<div class="closeBtn" onclick="overlay.style.display='none'">Close 💖</div>
+<div class="closeBtn" onclick="openCoupons()">⬅ Back to Coupons</div>
 </div>`;
 }
 
